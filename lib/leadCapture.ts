@@ -14,6 +14,27 @@ type SubmitMarketMatchLeadInput = {
   result: MarketMatchResult;
 };
 
+async function sendMarketMatchEmails(
+  lead: MarketMatchLead,
+  result: MarketMatchResult,
+) {
+  try {
+    const response = await fetch("/api/send-market-match-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ lead, result }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Email route failed with status ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Market Match email send failed", error);
+  }
+}
+
 export async function submitMarketMatchLead({
   firstName,
   email,
@@ -26,6 +47,7 @@ export async function submitMarketMatchLead({
   };
 
   await insertMarketMatchLead(lead, result);
+  await sendMarketMatchEmails(lead, result);
 
   window.localStorage.setItem(FIRST_NAME_STORAGE_KEY, lead.firstName);
   window.localStorage.setItem(EMAIL_STORAGE_KEY, lead.email);

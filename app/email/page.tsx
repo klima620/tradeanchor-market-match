@@ -137,8 +137,8 @@ export default function EmailPage() {
               ) : null}
 
               <p className="mt-5 text-sm leading-6 text-slate-500">
-                Your details are saved securely so we can send this profile when
-                email automation is connected.
+                Your details are saved securely so we can send your profile and
+                keep your result ready on this device.
               </p>
             </section>
           </div>
