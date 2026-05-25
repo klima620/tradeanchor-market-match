@@ -8,7 +8,7 @@ import type { MarketMatchLead, MarketMatchResult } from "@/lib/types";
 import { Resend } from "resend";
 
 const sender = "TradeAnchor <onboarding@resend.dev>";
-const adminEmail = "klima620@gmail.com";
+const fallbackAdminEmail = "klima620@gmail.com";
 
 type SendMarketMatchEmailRequest = {
   lead?: MarketMatchLead;
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
         text: traderEmail.body,
       }),
       sendResendEmail({
-        to: [adminEmail],
+        to: [process.env.ADMIN_NOTIFICATION_EMAIL || fallbackAdminEmail],
         subject: adminEmailSubject,
         text: adminEmailCopy.body,
       }),
